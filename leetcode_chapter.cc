@@ -2621,6 +2621,90 @@ class Solution {
         }
 };
 
+//121.Longest Valid Parentheses
+class Solution {
+    public:
+        int longestValidParentheses (string s) {
+            int answer = 0, depth = 0, start = -1;
+
+            for (int i = 0; i < s.size(); i++) {
+                if (s[i] == '(') {
+                    ++depth;
+                } else {
+                    --depth;
+                    if (depth < 0) {
+                        start = i;
+                        depth = 0;
+                    } else if (depth == 0) {
+                        answer = max(anser, i - start);
+                    }
+                }
+            }
+
+            depth = 0;
+            start = s.size();
+            for (int i = s.size() - 1; i >= 0; --i) {
+                if (s[i] == ')') {
+                    ++depth;
+                } else {
+                    --depth;
+                    if (depth < 0) {
+                        start = i;
+                        depth = 0;
+                    } else if (depth == 0) {
+                        answer = max(answer, start - i);
+                    }
+                }
+            }
+            return answer;
+        }
+};
+
+//122. Largest Rectangle in Histogram
+class Sollution {
+    public:
+        int largestRectangleArea (vector<int> & height) {
+            stack<int> s;
+            height.push_back(0);
+            int result = 0;
+            for (int i = 0; i < height.size(); ) {
+                if (s.empty() || height[i] > height[s.top()]) 
+                    s.push(i++);
+                else {
+                    int tmp = s.top();
+                    s.pop();
+                    result = max(result, height[tmp] * (s.empty() ? i : i - s.top() - 1));
+                }
+            }
+            return result;
+        }
+};
+
+//123. Evaluate Reverse Polish Notation 
+class Solution {
+    public:
+        int evalRPN(vector<string> & tokens) {
+            int x, y;
+            auto token = token.back(); tokens.pop_back();
+            if (is_operator(token)) {
+                y = evalRPN(tokens);
+                x = evalRPN(tokens);
+                if (token[0] == '+') x += y;
+                else if (token[0] == '-') x -= y;
+                else if (token[0] == '*') x *= y;
+                else if                   x /= y;
+            } else {
+                size_t i;
+                x = stoi(token, & i);
+            }
+            return x;
+        }
+    private:
+        bool is_operator(const string &op) {
+            return op.size() == 1 && string("+-*/").find(op) != string :: npos;
+        }
+};
+                    
 
 
 
