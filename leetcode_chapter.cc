@@ -2546,6 +2546,80 @@ class Solution {
 }
 
 //117. Insert Interval
+struct Interval {
+    int start;
+    int end;
+    Interval() : start(0), end(0) {}
+    Interval(int s, int e) : start(s), end(e) {}
+}
+
+class Solution {
+    public:
+        vector<Interval> insert(vector<Interval> & intervals, Interval newInterval) {
+            vector<Interval> :: iterator it = intervals.begin();
+            while (it != intervals.end()) {
+                if (newInterval.end < it -> start) {
+                    intervals.insert (it, newInterval);
+                    return intervals;
+                } else if (newInterval.start > it -> end) {
+                    it++;
+                    continue;
+                } else {
+                    newInterval.start = min(newInterval.start, it -> start);
+                    newInterval.end = max(newInterval.end, it -> end);
+                    it = intervals.erase(it);
+                }
+            }
+            intervals.insert(intervals.end(), newInterval);
+            return intervals;
+        }
+};
+
+//118.Merge Intervals
+//119.Minimum Window Substring
+//120.Multiply Strings
+//121.Substring with Concatenation of All words
+//122.Pascal's Triangle
+//123.Pascal's Triangle II
+//124.Spiral Matrix
+//125.Spiral Matrix II
+//126.ZigZag Conversion
+//127.Divide Two Integers
+//128.Text Justification 
+//129.Max Points on a Line
+//120.Valid Parentheses
+class Solution {
+    public:
+        bool isValid (string const & s) {
+            vector <char> sta;
+            if (s.size() == 0) return false;
+            sta.push_back(s(0));
+
+            for (int i = 1; i < s.size(); i++) {
+                if (s[i] == '(' || s[i] == '[' || s[i] == '{') {
+                    sta.push_back(s[i]);
+                    continue;
+                }
+                char current = sta.back();
+                if (s[i] == ')'  && current != '(') {
+                    return false;
+                }
+
+                if (s[i] == ']' && current != '[') {
+                    return false;
+                }
+
+                if (s[i] == '}' && current != '{') {
+                    return false;
+                }
+
+                sta.pop_back();
+            }
+
+                if (sta.size() != 0) return false;
+                return true;
+        }
+};
 
 
 
